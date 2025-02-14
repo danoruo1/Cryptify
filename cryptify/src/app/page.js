@@ -5,9 +5,7 @@ export default function Home() {
   return (
     <div>
     <ImageChanger/>
-    <Typography>
-      Cryptify
-    </Typography>
+
         
 
     </div>
