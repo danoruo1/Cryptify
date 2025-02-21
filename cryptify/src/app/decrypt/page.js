@@ -31,17 +31,17 @@ export default function Home() {
         alignItems:"center",
         justifyItems:"center",
         opacity:".6",
-        overflow:"clip"
+        overflow:"visible"
       }}
       >
          <Typography sx={{
           fontFamily:"glitchFont",
-          fontSize:"380px",
+          fontSize:"340px",
           color:"white",
           position:"relative",
           top:"-50px",
         }}>
-      Cryptify
+      Decryption
       </Typography>
       </Box>
 
@@ -59,12 +59,25 @@ export default function Home() {
           top:"-100px"
         }}
       >
-        <Button className="startButton"  onClick={() => handleRedirect('/encrypt')}> Encrypt </Button>
-        <Button className="startButton"  onClick={() => handleRedirect('/decrypt')}> Decrypt  </Button>
-        <Button className="startButton"  onClick={() => handleRedirect('/help')}> Help </Button>
+        
 
       </div>
+      <footer style={{ 
+            background: "transparent",
+            width: "80%",
+            height: "15%",
+            overflow: "clip",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "relative",
+            top: "-100px"
+            }}>
+          <Button className="startButton" onClick={() => handleRedirect('/')}> Back </Button>
+      </footer>
+
      
+
   </div>
    
   );
