@@ -4,7 +4,12 @@ from Crypto.Util.Padding import unpad
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
 from Crypto.Random import get_random_bytes
+from pydantic import BaseModel
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import os
+import pandas as pd
+import numpy as np
 
 class AESClass():
     def __init__(self):
@@ -27,10 +32,6 @@ class AESClass():
             ciphertext = AES.new(self.key, AES.MODE_ECB)
             padded_data = pad(data_bytes, AES.block_size) 
             ciphertext = ciphertext.encrypt(padded_data)
-        elif "CFB" in mode: #Cipher Block Chaining (CBC)
-            ciphertext = ""
-        elif "CGB" in mode: #
-            ciphertext = ""
         return ciphertext
 
     def decrypt(self,ciphertext,mode=None):
@@ -40,10 +41,6 @@ class AESClass():
             # Decrypt the data
             decrypted_data = unpad(decipher.decrypt(ciphertext), AES.block_size)
             plaintext = decrypted_data.decode()
-        elif "CFB" in mode: #Cipher Block Chaining (CBC)
-            plaintext = ""
-        elif "CGB" in mode: #
-            plaintext = ""
         return plaintext
 
 class RSAClass():
@@ -86,3 +83,49 @@ class CeaserCipher():
 
     def caesar_decrypt(self,ciphertext, shift):
         return self.caesar_encrypt(ciphertext, -shift)  # Decrypting is just shifting back
+    
+class DictionaryModel(BaseModel):
+    key1: str
+    key2: str
+    key3: str
+
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Or use ["*"] to allow all origins (not recommended for production)
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"],  # Allow these methods
+    allow_headers=["*"],
+)
+
+
+
+@app.post("/encrypt-message")
+def encrypt_message(message: str, method: str, key: DictionaryModel):
+    final_message = ""
+    if "AES" in method.upper():
+        print("AES")
+        aes = AESClass()
+        final_message = aes.encrpyt(message)
+    elif "CEASER" in method.upper():
+        print("Ceaser")
+        shift = int(key["shift"])
+        ceasercipher = CeaserCipher()
+        final_message = ceasercipher.caesar_encrypt(message,shift)
+    elif "RSA" in method.upper():
+        print("RSA")
+        rsaAlg = RSAClass()
+        pubKey = key["pubKey"]
+        final_message = rsaAlg.encrypt_message(message,pubKey)
+    return {"encrypted_message": final_message}
+
+@app.get("/getRSAKEY")
+def getkeyRSA():
+    temp = RSAClass()
+    pub,private = temp.generate_rsa_keys()
+    return {"public_key": pub, "private_key": private}  # Return as a dictionary
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)

@@ -1,10 +1,18 @@
 "use client"
 import {Box, Typography,Button, Container} from "@mui/material"
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import '../app/globals.css';
 
 export default function Home() {
   const router = useRouter();
+
+  useEffect(() => {
+    router.prefetch('/encrypt');
+    router.prefetch('/decrypt');
+    router.prefetch('/help');
+  }, [router]);
+
 
   const handleRedirect = (path) => {
     router.push(path); // Use push for client-side navigation
@@ -60,6 +68,7 @@ export default function Home() {
           top:"-100px"
         }}
       >
+        
         <Button className="startButton"  onClick={() => handleRedirect('/encrypt')}> Encrypt </Button>
         <Button className="startButton"  onClick={() => handleRedirect('/decrypt')}> Decrypt  </Button>
         <Button className="startButton"  onClick={() => handleRedirect('/help')}> Help </Button>

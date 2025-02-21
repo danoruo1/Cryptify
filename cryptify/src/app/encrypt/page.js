@@ -1,13 +1,22 @@
 "use client"
 import {Box, Typography,Button, Container} from "@mui/material"
 import { useRouter } from 'next/navigation';
-
+import { useState } from "react";
 export default function Home() {
   const router = useRouter();
-
+  const [alg, setAlg] = useState(false);
+  const [algorithm, setAlgorithm] = useState("");
   const handleRedirect = (path) => {
     router.push(path); // Use push for client-side navigation
   };
+
+  const changeAlg = (al) => {
+    setAlg(true);
+    setAlgorithm(al);
+    console.log(al);
+  };
+
+  const algData = new Map();
 
   return (
     <div
@@ -34,15 +43,24 @@ export default function Home() {
         overflow:"visible"
       }}
       >
-         <Typography sx={{
+      <Typography sx={{
           fontFamily:"glitchFont",
           fontSize:"340px",
           color:"white",
           position:"relative",
           top:"-50px",
-        }}>
-      Encryption
+          }}>Encryption
       </Typography>
+
+      {!alg &&<Typography sx={{
+          fontFamily:"glitchFont",
+          fontSize:"150px",
+          color:"white",
+          position:"relative",
+          top:"-120px",
+          marginBottom:"0px"
+          }}>Choose An Algorithm
+        </Typography>}
       </Box>
 
       <div
@@ -60,6 +78,26 @@ export default function Home() {
         }}
       >
         
+        {!alg&& <Button className="startButton" onClick={() => changeAlg('AES')}> AES </Button>}
+        {!alg&&<Button className="startButton" onClick={() => changeAlg('Ceaser Cipher')} style={{fontSize:"40px"}}> Ceaser Cipher </Button>}
+        {!alg&&<Button className="startButton" onClick={() => changeAlg('RSA')}> RSA </Button>}
+
+        {alg &&<input
+          type="text"
+         placeholder="Enter your message"
+         style={{
+          width:"100%",
+          backgroundColor:"black",
+          color:"white",
+          fontFamily:"glitchFont",
+          height:"100%",
+          borderRadius:"20px",
+          border:"7px solid green",
+          fontSize:"25px",
+          overflow:"auto"
+         }} 
+        ></input>}
+        
 
       </div>
       <footer style={{ 
@@ -71,9 +109,11 @@ export default function Home() {
             alignItems: "center",
             justifyContent: "center",
             position: "relative",
-            top: "-100px"
+            top: "-100px",
+            gap:"60px"
             }}>
           <Button className="startButton" onClick={() => handleRedirect('/')}> Back </Button>
+          {alg &&<Button className="startButton"> Send </Button>}
       </footer>
 
      
