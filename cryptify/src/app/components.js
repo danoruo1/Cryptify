@@ -20,7 +20,7 @@ const ImageChanger = () => {
         setImageIndex(prevIndex => (prevIndex + 1) % images.length);
         // Fade in (opacity = 1) after the image has changed
         setOpacity(1);
-      }, 3000); // Wait 3 seconds (adjustable) to match the fade-out time
+      }, 4500); // Wait 3 seconds (adjustable) to match the fade-out time
     }, 30000); // Change image every 30 seconds
 
     return () => clearInterval(interval); // Cleanup the interval on component unmount
@@ -37,16 +37,34 @@ const ImageChanger = () => {
         opacity: opacity, // Control opacity to fade in/out
         transition: 'opacity 3s ease-in-out, background-image 3s ease-in-out', // 3-second fade transitions
         backgroundColor: opacity === 0 ? 'black' : 'transparent', // Change background color to black during fade-out
-        alignItems:"center"
+        alignItems:"center",
+        justifyItems:"center"
       }}
     >
-
-        <Typography sx={{
+        <Box
+        sx={{
+          width:"50%",
+          height:"20%",
+          background:"white",
+          borderRadius:"38px",
+          alignItems:"center",
+          justifyItems:"center",
+          opacity:".6"
+        }}
+        >
+           <Typography sx={{
             fontFamily:"-moz-initial",
-            fontSize:"20px"
-        }}>
+            fontSize:"170px",
+            color:"black",
+            position:"relative",
+            top:"-50px",
+          }}>
         Cryptify
         </Typography>
+
+
+        </Box>
+       
     </div>
   );
 };
