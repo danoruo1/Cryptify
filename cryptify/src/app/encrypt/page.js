@@ -15,9 +15,22 @@ export default function Home() {
     setAlgorithm(al);
     console.log(al);
   };
-
   const algData = new Map();
 
+
+  const send = () => {
+    if (algorithm == "") {
+
+    }
+
+    if (algorithm = ""){
+
+    }
+
+    if (algorithm = ""){
+      
+    }
+  };
   return (
     <div
     style={{
@@ -79,8 +92,24 @@ export default function Home() {
       >
         
         {!alg&& <Button className="startButton" onClick={() => changeAlg('AES')}> AES </Button>}
-        {!alg&&<Button className="startButton" onClick={() => changeAlg('Ceaser Cipher')} style={{fontSize:"40px"}}> Ceaser Cipher </Button>}
+        {!alg&&<Button className="startButton" onClick={() => changeAlg('CeaserCipher')} style={{fontSize:"40px"}}> Ceaser Cipher </Button>}
         {!alg&&<Button className="startButton" onClick={() => changeAlg('RSA')}> RSA </Button>}
+
+        {alg && algorithm=="CeaserCipher" && <input
+          type="text"
+         placeholder="Choose a Shift"
+         style={{
+          width:"100%",
+          backgroundColor:"black",
+          color:"white",
+          fontFamily:"glitchFont",
+          height:"80%",
+          borderRadius:"20px",
+          border:"7px solid green",
+          fontSize:"25px",
+          overflow:"auto"
+         }} 
+        ></input>}
 
         {alg &&<input
           type="text"
@@ -90,13 +119,16 @@ export default function Home() {
           backgroundColor:"black",
           color:"white",
           fontFamily:"glitchFont",
-          height:"100%",
+          height:"80%",
           borderRadius:"20px",
           border:"7px solid green",
           fontSize:"25px",
           overflow:"auto"
          }} 
         ></input>}
+
+        {alg && algorithm=="RSA" && <Button className="startButton" style={{fontSize:"30px"}}> Generate Keys </Button>}
+
         
 
       </div>
