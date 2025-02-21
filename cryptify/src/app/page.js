@@ -1,6 +1,7 @@
 "use client"
 import {Box, Typography,Button, Container} from "@mui/material"
 import { useRouter } from 'next/navigation';
+import '../styles/globals.css';
 
 export default function Home() {
   const router = useRouter();
