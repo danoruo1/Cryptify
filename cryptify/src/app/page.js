@@ -2,7 +2,8 @@
 import {Box, Typography,Button, Container} from "@mui/material"
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import '/src/app/custom.css';  // Adjust the path to where custom.css is located
+import StartBar from "./components";
+import './styles/custom.css'; // If it's inside `styles/`
 
 export default function Home() {
   const router = useRouter();
@@ -60,26 +61,7 @@ export default function Home() {
       </Typography>
       </Box>
 
-      <div
-        style={{
-          background:"transparent",
-          width:"80%",
-          height:"25%",
-          gap:"20%",
-          overflow:"clip",
-          position:"relative",
-          alignItems:"center",
-          display:"flex",
-          position:"relative",
-          top:"-100px"
-        }}
-      >
-        
-        <Button className="startButton"  onClick={() => handleRedirect('/encrypt')}> Encrypt </Button>
-        <Button className="startButton"  onClick={() => handleRedirect('/decrypt')}> Decrypt  </Button>
-        <Button className="startButton"  onClick={() => handleRedirect('/help')}> Help </Button>
-
-      </div>
+    <StartBar/>
      
   </div>
    
