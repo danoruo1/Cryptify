@@ -2,7 +2,7 @@
 import {Box, Typography,Button, Container} from "@mui/material"
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import '/custom.css'; 
+import '../src/app/custom.css';  // Adjust the path to where custom.css is located
 
 export default function Home() {
   const router = useRouter();
