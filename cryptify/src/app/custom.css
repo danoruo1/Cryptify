@@ -1,0 +1,18 @@
+.startButton {
+  width: 20%;
+  height: 50%;
+  background-color: black;
+  border-radius: 20px;
+  border: 5px solid rgb(21, 255, 0);
+  position: relative;
+  font-family: glitchFont;
+  font-size: 90px;
+  color: green;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Add transition */
+}
+
+.startButton:hover {
+  background-color: lightcoral; /* Change to a different color on hover */
+  transform: scale(1.05); /* Slightly enlarge the button */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* Add shadow for depth */
+}
