@@ -5,6 +5,7 @@ from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
 from Crypto.Random import get_random_bytes
 from pydantic import BaseModel
+from cryptography.hazmat.primitives import serialization
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
@@ -47,21 +48,21 @@ class RSAClass():
     def __init__(self):
         pass
     # Generate RSA keys (2048 bits)
-    def generate_rsa_keys():
+    def generate_rsa_keys(self):
         key = RSA.generate(2048)
         private_key = key.export_key()
         public_key = key.publickey().export_key()
         return private_key, public_key
 
     # Encrypt message with the public key
-    def encrypt_message(message, public_key):
+    def encrypt_message(self, message, public_key):
         public_key = RSA.import_key(public_key)
         cipher = PKCS1_OAEP.new(public_key)
         ciphertext = cipher.encrypt(message.encode('utf-8'))
         return ciphertext
 
     # Decrypt message with the private key
-    def decrypt_message(ciphertext, private_key):
+    def decrypt_message(self, ciphertext, private_key):
         private_key = RSA.import_key(private_key)
         cipher = PKCS1_OAEP.new(private_key)
         decrypted_message = cipher.decrypt(ciphertext)
@@ -70,7 +71,7 @@ class RSAClass():
 class CeaserCipher():
     def __init__(self):
         pass
-    def caesar_encrypt(plaintext, shift):
+    def caesar_encrypt(self, plaintext, shift):
         encrypted_text = ''
         for char in plaintext:
             if char.isalpha():
@@ -85,9 +86,9 @@ class CeaserCipher():
         return self.caesar_encrypt(ciphertext, -shift)  # Decrypting is just shifting back
     
 class DictionaryModel(BaseModel):
-    key1: str
-    key2: str
-    key3: str
+    message: str = None  # Public key for RSA
+    method: str = None  # Private key for RSA
+    key: dict = {} # Shift for Caesar cipher
 
 app = FastAPI()
 
@@ -102,22 +103,26 @@ app.add_middleware(
 
 
 @app.post("/encrypt-message")
-def encrypt_message(message: str, method: str, key: DictionaryModel):
+def encrypt_message(key: DictionaryModel):
+    message = key.message
+    method =  key.method 
+    keyArr = key.key
+
     final_message = ""
     if "AES" in method.upper():
-        print("AES")
         aes = AESClass()
         final_message = aes.encrpyt(message)
     elif "CEASER" in method.upper():
-        print("Ceaser")
-        shift = int(key["shift"])
+        shift = int(keyArr["shift"])
         ceasercipher = CeaserCipher()
         final_message = ceasercipher.caesar_encrypt(message,shift)
     elif "RSA" in method.upper():
-        print("RSA")
         rsaAlg = RSAClass()
-        pubKey = key["pubKey"]
+        pubKey = keyArr["pubKey"]
+        print(f"rsaprivkey: {pubKey} ")
+
         final_message = rsaAlg.encrypt_message(message,pubKey)
+    
     return {"encrypted_message": final_message}
 
 @app.get("/getRSAKEY")

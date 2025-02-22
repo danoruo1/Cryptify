@@ -15,8 +15,14 @@ export default function Home() {
 
 
   const handleRedirect = (path) => {
-    router.push(path); // Use push for client-side navigation
+    setTimeout(() => {
+      router.push(path); // Use push for client-side navigation
+    },150)
   };
+
+
+
+  
 
   return (
     <div

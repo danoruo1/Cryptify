@@ -1,0 +1,7 @@
+fastapi==0.95.2
+uvicorn==0.22.0
+pycryptodome==3.17
+pydantic==1.10.9
+pandas==2.0.3
+numpy==1.25.2
+cryptography
