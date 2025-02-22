@@ -2,7 +2,7 @@
 import {Box, Typography,Button, Container} from "@mui/material"
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import '../globals.css';
+import '../app/globals.css';
 
 export default function Home() {
   const router = useRouter();
