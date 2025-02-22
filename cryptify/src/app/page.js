@@ -26,6 +26,8 @@ export default function Home() {
   
 
   return (
+    
+    
     <div
     style={{
       backgroundImage:  'url(/images/hacking.gif)',
@@ -38,6 +40,7 @@ export default function Home() {
       justifyItems:"center",
     }}
   >
+    
       <Box
       sx={{
         width:"70%",

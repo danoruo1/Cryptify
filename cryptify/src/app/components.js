@@ -20,7 +20,7 @@ export default function StartBar() {
     useEffect(() => {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = '/custom.css'; // Ensure the file is accessible in `public/`
+    link.href = 'styles/custom.css'; // Ensure the file is accessible in `public/`
     document.head.appendChild(link);
 
     return () => {
