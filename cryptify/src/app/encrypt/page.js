@@ -8,7 +8,7 @@ export default function Home() {
   const [algorithm, setAlgorithm] = useState("");
   const [msg, setMsg] = useState("");
   const[[pubkey,privkey], setKeys] = useState(["None","None"])
-  const[[rsapubkey,rsaprivkey], setrsaKeys] = useState(["None","None"])
+  const[[rsaprivkey,rsapubkey], setrsaKeys] = useState(["None","None"])
   const [shift, setShift] = useState(0);
 
   const handleRedirect = (path) => {

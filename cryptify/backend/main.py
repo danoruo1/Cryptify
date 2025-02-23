@@ -11,6 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 import pandas as pd
 import numpy as np
+import base64
 
 class AESClass():
     def __init__(self):
@@ -50,16 +51,23 @@ class RSAClass():
     # Generate RSA keys (2048 bits)
     def generate_rsa_keys(self):
         key = RSA.generate(2048)
-        private_key = key.export_key()
-        public_key = key.publickey().export_key()
+        private_key = key.export_key() 
+        public_key = key.publickey().export_key() 
         return private_key, public_key
+
 
     # Encrypt message with the public key
     def encrypt_message(self, message, public_key):
         public_key = RSA.import_key(public_key)
         cipher = PKCS1_OAEP.new(public_key)
+
+        # Encrypt the message
         ciphertext = cipher.encrypt(message.encode('utf-8'))
-        return ciphertext
+
+        # Encode the ciphertext in base64 for easier handling as a string
+        ciphertext_base64 = base64.b64encode(ciphertext).decode('utf-8')
+
+        return ciphertext_base64
 
     # Decrypt message with the private key
     def decrypt_message(self, ciphertext, private_key):
@@ -119,10 +127,8 @@ def encrypt_message(key: DictionaryModel):
     elif "RSA" in method.upper():
         rsaAlg = RSAClass()
         pubKey = keyArr["pubKey"]
-        print(f"rsaprivkey: {pubKey} ")
-
         final_message = rsaAlg.encrypt_message(message,pubKey)
-    
+        print(final_message)
     return {"encrypted_message": final_message}
 
 @app.get("/getRSAKEY")
