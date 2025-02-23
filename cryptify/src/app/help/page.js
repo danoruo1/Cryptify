@@ -72,7 +72,8 @@ export default function Home() {
             borderRadius: "20px",
             border: "7px solid green",
             fontSize: "25px",
-            overflow: "auto"
+            overflow: "auto",
+            scrollbarWidth: 'none', // For Firefox
         }}>
           <Typography sx={{
             fontFamily:"glitchFont",

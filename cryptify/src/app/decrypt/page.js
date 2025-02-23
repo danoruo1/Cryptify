@@ -1,7 +1,7 @@
 "use client"
 import {Box, Typography,Button, Container} from "@mui/material"
 import { useRouter } from 'next/navigation';
-
+import { DecrpytNav } from "../components";
 export default function Home() {
   const router = useRouter();
 
@@ -47,23 +47,8 @@ export default function Home() {
       </Typography>
       </Box>
 
-      <div
-        style={{
-          background:"transparent",
-          width:"80%",
-          height:"25%",
-          gap:"20%",
-          overflow:"clip",
-          position:"relative",
-          alignItems:"center",
-          display:"flex",
-          position:"relative",
-          top:"-100px"
-        }}
-      >
-        
+      <DecrpytNav/>
 
-      </div>
       <footer style={{ 
             background: "transparent",
             width: "80%",

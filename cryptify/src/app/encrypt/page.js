@@ -14,12 +14,21 @@ export default function Home() {
   const [shift, setShift] = useState(0);
   const [processFinished, setProcess] = useState(false)
   const [ciphertext,setCipher] = useState("")
+  const [DB,sendtoDB] = useState(false)
 
   const handleRedirect = (path) => {
       setTimeout(() => {
         router.push(path); // Use push for client-side navigation
       },150)
   };
+
+  const sendToDatabase = () =>{
+    if (DB) return;
+    sendtoDB(true)
+    setTimeout(()=> {alert("Sent To Database, Refreshing")
+      router.push("/")
+    },500)
+  }
 
   const changeAlg = (al) => {
     setAlg(true);
@@ -223,6 +232,7 @@ export default function Home() {
           borderRadius:"20px",
           border:"7px solid green",
           fontSize:"25px",
+          scrollbarWidth: 'none', // For Firefox
           overflow:"auto"
          }} 
         ></input>}
@@ -311,7 +321,9 @@ export default function Home() {
           <Button className="startButton" onClick={() => handleRedirect('/')}> Back </Button>
           {alg && !processFinished &&<Button className="startButton" onClick={() => encryptData(msg)}> Encrypt </Button>}
           {processFinished &&<Button className="startButton" > Send </Button>}
-          {processFinished &&<Button className="startButton" > Post </Button>}
+          {processFinished &&<Button className="startButton" onClick={sendToDatabase} > Post </Button>}
+          {processFinished &&<Button className="startButton"  > Save </Button>}
+
 
       </footer>
 
