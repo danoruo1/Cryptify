@@ -2,6 +2,8 @@
 import {Box, Typography,Button, Container} from "@mui/material"
 import { useRouter } from 'next/navigation';
 import { useState } from "react";
+import '/styles/custom.css'; // If it's inside `styles/`
+
 export default function Home() {
   const router = useRouter();
   const [alg, setAlg] = useState(false);
@@ -10,6 +12,8 @@ export default function Home() {
   const[[pubkey,privkey], setKeys] = useState(["None","None"])
   const[[rsaprivkey,rsapubkey], setrsaKeys] = useState(["None","None"])
   const [shift, setShift] = useState(0);
+  const [processFinished, setProcess] = useState(false)
+  const [ciphertext,setCipher] = useState("")
 
   const handleRedirect = (path) => {
       setTimeout(() => {
@@ -45,7 +49,7 @@ export default function Home() {
     }
   }
 
-  const sendData = async (m) => {  // Assuming `key` is an object that matches your DictionaryModel
+  const encryptData = async (m) => {  // Assuming `key` is an object that matches your DictionaryModel
     if (m.trim() === "") {
         alert("Empty Message");
         return;
@@ -88,7 +92,11 @@ export default function Home() {
           throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      console.log("Encrypted message:", data.encrypted_message); // Handle the encrypted message
+     // console.log("Encrypted message:", data.encrypted_message); // Handle the encrypted message
+      setCipher(data.encrypted_message)
+      setProcess(true)
+      console.log(processFinished)
+      
   } catch (error) {
       console.error("Error sending data:", error);
   }
@@ -141,7 +149,9 @@ export default function Home() {
           color:"white",
           position:"relative",
           top:"-120px",
-          marginBottom:"0px"
+          marginBottom:"0px",
+          display:"flex",
+          overflow:"auto"
           }}>Choose An Algorithm
         </Typography>}
 
@@ -155,8 +165,8 @@ export default function Home() {
 
       </Typography>}
       </Box>
-
-      <div
+      
+      {!processFinished && <div
         style={{
           background:"transparent",
           width:"80%",
@@ -221,7 +231,71 @@ export default function Home() {
 
         
 
-      </div>
+      </div>} 
+
+      {processFinished &&<div
+        style={{
+          background:"transparent",
+          width:"80%",
+          height:"25%",
+          gap:"20%",
+          overflow:"clip",
+          position:"relative",
+          alignItems:"center",
+          display:"flex",
+          position:"relative",
+          top:"-100px"
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+            backgroundColor: "black",
+            color: "white",
+            fontFamily: "glitchFont",
+            height: "80%",
+            borderRadius: "20px",
+            border: "7px solid green",
+            fontSize: "25px",
+            overflow: "auto"
+        }}>
+
+        {algorithm == "RSA" && <Typography sx={{
+            fontFamily:"glitchFont",
+            fontSize:"30px",
+            color:"white",
+            position:"relative",
+            }}> Plaintext: {msg} <br></br> <br></br> Ciphertext: {ciphertext} <br></br> <br></br>Public Key: <br></br> {(rsapubkey.replace(/-----BEGIN PUBLIC KEY-----/g, '')).replace(/-----END PUBLIC KEY-----/g, '')}  
+
+        </Typography>}
+
+
+        {algorithm == "CeaserCipher" && <Typography sx={{
+            fontFamily:"glitchFont",
+            fontSize:"30px",
+            color:"white",
+            position:"relative",
+            }}> Plaintext: {msg} <br></br> Shift: {shift} <br></br> Ciphertext: {ciphertext}
+
+        </Typography>}
+
+
+
+          
+        </Box>
+        
+        
+        
+        </div>}
+
+
+
+
+
+
+
+
+
       <footer style={{ 
             background: "transparent",
             width: "80%",
@@ -235,7 +309,10 @@ export default function Home() {
             gap:"60px"
             }}>
           <Button className="startButton" onClick={() => handleRedirect('/')}> Back </Button>
-          {alg &&<Button className="startButton" onClick={() => sendData(msg)}> Send </Button>}
+          {alg && !processFinished &&<Button className="startButton" onClick={() => encryptData(msg)}> Encrypt </Button>}
+          {processFinished &&<Button className="startButton" > Send </Button>}
+          {processFinished &&<Button className="startButton" > Post </Button>}
+
       </footer>
 
      

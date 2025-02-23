@@ -3,7 +3,7 @@ import {Box, Typography,Button, Container} from "@mui/material"
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import StartBar from "./components";
-import './styles/custom.css'; // If it's inside `styles/`
+import '/styles/custom.css'; // If it's inside `styles/`
 
 export default function Home() {
   const router = useRouter();
@@ -40,7 +40,7 @@ export default function Home() {
       justifyItems:"center",
     }}
   >
-    
+        
       <Box
       sx={{
         width:"70%",
